@@ -61,7 +61,11 @@ extern int lineno;	/* source line number for listing */
 /*****************************************************************/
 /****************** Syntax tree for parsing **********************/
 /*****************************************************************/
-
+/* 语句包括赋值语句、复合语句、选择语句、循环语句、返回语句
+ * 表达式包括符号节点、常数节点、整型变量节点、函数调用节点
+ * 声明节点包括函数声明节点、整型变量声明节点、整型数组声明节点
+ * 函数参数节点包括数组参数节点、整型变量参数节点
+*/
 typedef enum { StmtK, ExpK,DeclK,ParamK,TypeK }NodeKind;
 typedef enum {AssignK,CompK,IfK,IterK,RetK}StmtKind;
 typedef enum { OpK, ConstK, IdK,ArrIdK,CallK }ExpKind;
@@ -82,6 +86,18 @@ typedef enum { Void, Integer, Boolean,IntegerArray }ExpType;
 #define MAXCHILDREN 3
 
 struct ScopeRec;
+
+/*
+ *语法树节点
+ *包括孩子节点和兄弟节点
+ * 节点分为五种类型：
+ * stmt：statement语句节点
+ * exp: expression表达式节点
+ * decl：decline函数、参数等的声明节点
+ * param：parameter 函数参数节点
+ * type：type 类型节点
+*/
+
 
 typedef struct treeNode
 {
@@ -113,10 +129,17 @@ typedef struct treeNode
 /******************    Flags for tracing    **********************/
 /*****************************************************************/
 
+/*
+ * EchoSource决定是否在代码每一行前加上行号
+ * Transcan决定是否跟踪扫描器识别token情况
+ * TracePrase TraceCode同理
+*/
+
 /* EchoSource = TRUE causes the source porgram to
  * be echoed to the listing file with line numbers
  * during parsing
  */
+
 extern int EchoSource;
 
 /* TraceScan = TRUE causes token information to be
