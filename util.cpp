@@ -153,3 +153,108 @@ char* copyString(char* s)
 	return t;
 }
 void printTree(TreeNode* tree)
+{
+	int i;
+	INDENT;
+	while (tree != NULL) {
+		printSpaces();
+		if (tree->nodeKind == StmtK)
+		{
+			switch (tree->kind.stmt) {
+			case IfK:
+				fprintf(listing, "If\n");
+				break;
+			case IterK:
+				fprintf(listing, "While\n");
+				break;
+			case AssignK:
+				fprintf(listing, "Assign\n");
+				break;
+			case CompK:
+				fprintf(listing, "Compound Statement\n");
+				break;
+			case RetK:
+				fprintf(listing, "Return\n");
+				break;
+			default:
+				fprintf(listing, "Unknown ExpNode kind\n");
+				break;
+			}
+		}
+		else if (tree->nodeKind == ExpK)
+		{
+			switch (tree->kind.exp) {
+			case OpK:
+				fprintf(listing, "Op: ");
+				printToken(tree->attr.op, "\0");
+				break;
+			case ConstK:
+				fprintf(listing, "Const: %d\n", tree->attr.val);
+				break;
+			case IdK:
+				fprintf(listing, "Id: %s\n", tree->attr.name);
+				break;
+			case ArrIdK:
+				fprintf(listing, "ArrId: %s\n", tree->attr.arr.name);
+				break;
+			case CallK:
+				fprintf(listing, "Call(followings are args): %s\n", tree->attr.name);
+				break;
+			default:
+				fprintf(listing, "Unknown ExpNode kind\n");
+				break;
+			}
+		}
+		else if (tree->nodeKind == DeclK) {
+			switch (tree->kind.decl) {
+			case VarK:
+				fprintf(listing, "Var Decl: %s\n", tree->attr.name);
+				break;
+			case ArrVarK:
+				fprintf(listing, "Var Decl(following const:array length): %s %d\n",
+					tree->attr.arr.name, tree->attr.arr.size);
+				break;
+			case FuncK:
+				fprintf(listing, "Funcion Decl: %s\n", tree->attr.name);
+				break;
+			default:
+				fprintf(listing, "Unknown DeclNode kind\n");
+				break;
+			}
+		}
+		else if (tree->nodeKind == ParamK) {
+			switch (tree->kind.param) {
+			case ArrParamK:
+				fprintf(listing, "Array Parameter: %s\n", tree->attr.arr.name);
+				break;
+			case NonArrParamK:
+				fprintf(listing, "Parameter: %s\n", tree->attr.name);
+				break;
+			default:
+				fprintf(listing, "Unknown ParamNode kind\n");
+				break;
+			}
+		}
+		else if (tree->nodeKind == TypeK) {
+			switch (tree->type) {
+			case Void:
+				fprintf(listing, "Type: void\n");
+				break;
+			case Integer:
+				fprintf(listing, "Type: int\n");
+				break;
+			case IntegerArray:
+				fprintf(listing, "Type: int array\n");
+				break;
+			default:
+				fprintf(listing, "Unknown TypeNode kind\n");
+				break;
+			}
+		}
+		else fprintf(listing, "Unknown node kind\n");
+		for (i = 0; i < MAXCHILDREN; i++)
+			printTree(tree->child[i]);
+		tree = tree->sibling;
+	}
+	UNINDENT;
+}
