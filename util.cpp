@@ -152,6 +152,19 @@ char* copyString(char* s)
 	else strcpy(t, s);
 	return t;
 }
+
+static int indentno = 0;
+
+#define INDENT indentno+=2;
+#define UNINDENT indentno -= 2;
+
+static void printSpaces(void)
+{
+	int i;
+	for (i = 0; i < indentno; i++)
+		fprintf(listing, " ");
+}
+
 void printTree(TreeNode* tree)
 {
 	int i;
