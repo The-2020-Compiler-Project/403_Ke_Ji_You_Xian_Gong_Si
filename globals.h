@@ -16,7 +16,7 @@
 #define TRUE 1
 #endif // !TRUE
 
-/* MAXRESERVED = the number of reserved words */
+/* MAXRESERVED 关键字的数量 */
 #define MAXRESERVED 8
 
 //TokenType tocken的种类
@@ -52,14 +52,13 @@ typedef enum {
 }TokenType;
 
 //全局变量
-extern FILE* source; /* source code text file */
-extern FILE* listing;	/* listing output text file */
-extern FILE* code;	/* code text file for TM simulator */
+extern FILE* source;
+extern FILE* listing;
+extern FILE* code;
 
-extern int lineno;	/* source line number for listing */
-
+extern int lineno;
 /*****************************************************************/
-/****************** Syntax tree for parsing **********************/
+/******************     语法树和语法分析     **********************/
 /*****************************************************************/
 /* 语句包括赋值语句、复合语句、选择语句、循环语句、返回语句
  * 表达式包括符号节点、常数节点、整型变量节点、函数调用节点
@@ -118,52 +117,22 @@ typedef struct treeNode
 		ArrayAttr arr;
 		struct ScopeRec* scope;
 	}attr;
-	ExpType type;	/* for type checking of exps */
-	bool isInFuncCom;  // if isInFuncCom == true stack in
-	bool isAInt; // like  a[x] is true , a is false
-
+	ExpType type;	/* 表达式中的类型检查 */
+	bool isInFuncCom;  // 如果 isInFuncCom == true 入栈
+	bool isAInt; // 比如a[x]是一个integer，而a不是
 }TreeNode;
 
 
-/*****************************************************************/
-/******************    Flags for tracing    **********************/
-/*****************************************************************/
 
 /*
  * EchoSource决定是否在代码每一行前加上行号
  * Transcan决定是否跟踪扫描器识别token情况
  * TracePrase TraceCode同理
 */
-
-/* EchoSource = TRUE causes the source porgram to
- * be echoed to the listing file with line numbers
- * during parsing
- */
-
 extern int EchoSource;
-
-/* TraceScan = TRUE causes token information to be
- * printed to the listing file as each token is
- * recognized by the scanner
- */
 extern int TraceScan;
-
-/* TraceParse = TRUE causes the syntax tree to be
- * printed to the listing file in linearized form
- * (using indents for children)
- */
 extern int TracePrase;
-
-/* TraceAnalyze = TRUE causes symbol table inserts
- * and lookups to be reported to the listing file
- */
 extern int TraceAnalyze;
-
-/* TraceCode = TRUE causes comments to be written
- * to the TM code file as code is generated
- */
 extern int TraceCode;
-
-/* Error = TRUE prevents further passes if an error occurs */
 extern int Error;
 #endif

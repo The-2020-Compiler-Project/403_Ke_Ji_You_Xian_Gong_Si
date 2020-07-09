@@ -106,10 +106,6 @@ static void nullProc(TreeNode* t)
 }
 
 
-/* Procedure insertNode inserts
- * identifiers stored in t into
- * the symbol table
- */
 static void insertNode(TreeNode* t)
 {
 	switch (t->nodeKind)
@@ -142,31 +138,24 @@ static void insertNode(TreeNode* t)
 		
 		case ArrIdK:
 			if (st_lookup(t->attr.arr.name) == -1)
-				/* not yet in table , error */
 			{
 				Scope nowScope = sc_top();
 				symbolError(t, "undelcared symbol");
 			}
 
 			else
-				/* already in table, so ignore location
-				   add line number of use only */
 				st_add_lineno(t->attr.arr.name, t->lineno);
 			break;
 
 		case IdK:
 		case CallK:
-			/* not yet in table, so treat as new definition */
 			if (st_lookup(t->attr.name) == -1)
-				/* not yet in table , error */
 			{
 				Scope nowScope= sc_top();
 				symbolError(t, "undelcared symbol");
 			}
 				
 			else
-				/* already in table, so ignore location
-				   add line number of use only */
 				st_add_lineno(t->attr.name, t->lineno);
 			break;
 		default:
@@ -179,7 +168,6 @@ static void insertNode(TreeNode* t)
 		case FuncK:
 			funcName = t->attr.name;
 			if (st_lookup_top(funcName) >= 0) {
-				/* already in table, so it's an error */
 				symbolError(t, "function already declared");
 				break;
 			}
@@ -255,12 +243,6 @@ static void insertNode(TreeNode* t)
 		{
 			if (st_lookup(t->attr.arr.name) == -1) {
 				st_insert(t->attr.arr.name, t->lineno, addLocation(), t);
-				/*
-				if (t->kind.param == NonArrParamK)
-					t->type = Integer;
-				else
-					symbolError(t, "symbol already declared for current scope");
-				*/
 			}
 		}
 		
@@ -291,9 +273,6 @@ static void afterInsertNode(TreeNode* t)
 	}
 }
 
-/* Function buildSymtab constructs the symbol
- * table by preorder traversal of the syntax tree
- */
 void buildSymtab(TreeNode* syntaxTree)
 {
 	globalScope = sc_create(NULL);
@@ -354,10 +333,8 @@ static void checkNode(TreeNode* t)
 		{
 		case AssignK:
 			if (t->child[0]->child[0]->type == IntegerArray)
-				/* no value can be assigned to array variable */
 				typeError(t->child[0], "assignment to array variable");
 			else if (t->child[1]->type == Void)
-				/* r-value cannot have void type */
 				typeError(t->child[0], "assignment of void value");
 			else
 				t->type = t->child[0]->type;

@@ -34,7 +34,7 @@ int EchoSource = TRUE;
 int TraceScan = TRUE;
 int TraceParse = TRUE;
 int TraceAnalyze = TRUE;
-int TraceCode = TRUE;
+int TraceCode = FALSE;
 
 int Error = FALSE;
 

@@ -1,19 +1,8 @@
-/************************************************/
-/*File name code.cpp							*/
-/*TM code emitting utilities implementation		*/
-/*for the TINY compiler							*/
-/************************************************/
-
 #include "globals.h"
 #include "code.h"
 
-/*TM location number for current instruction emission*/
 static int emitLoc = 0;
 
-/*Highest TM location emitted so far 
- *For use in conjunction with emitSkip,
- *emitBackup,and emitRestore
- */
 static int highEmitLoc = 0;
 
 /*Procedure emitComment prints a comment line
@@ -28,7 +17,7 @@ void emitComment(const char* c) {
  *r=target register
  *s=1st source register
  *t=2nd source register
- *c=acomment to be printed if TraceCode is TRUE
+ *c=a comment to be printed if TraceCode is TRUE
  */
 void emitRO(const char* op, int r, int s, int t, const char* c) {
     fprintf(code, "%3d:   %5s   %d,%d,%d", emitLoc++, op, r, s, t);

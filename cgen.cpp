@@ -105,7 +105,7 @@ static void genExp(TreeNode* tree, int lhs)
             emitRM("LDC", ac, 1, ac, "true case");
             break;
         default:
-            emitComment("ERROR: 操作数未知 ");
+            emitComment("BUG: Unknown operator");
             break;
         }
 
