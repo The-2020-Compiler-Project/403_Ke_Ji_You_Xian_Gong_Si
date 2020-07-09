@@ -2,8 +2,8 @@ CC = g++
 
 OBJS =main.o analyze.o cgen.o code.o parse.o scan.o symtab.o util.o
 
-cm-compile: $(OBJS)
-	$(CC) $(OBJS) -o cm-compile
+cx-compiler: $(OBJS)
+	$(CC) $(OBJS) -o cx-compiler
 
 main.o: main.cpp globals.h util.h scan.h analyze.h cgen.h parse.h
 	$(CC) -c main.cpp
@@ -30,10 +30,10 @@ util.o: util.cpp globals.h util.h
 	$(CC) -c util.cpp
 
 clean:
-	-rm cm-compile
+	-rm cx-compiler
 	-rm $(OBJS)
 
 test: cm-compile
-	-./cm-compile test.cm
+	-./cx-compiler test.cm
 
-all: cm-compile
+all: cx-compiler

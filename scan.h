@@ -3,14 +3,13 @@
 #define _SCAN_H_
 #include"globals.h"
 
-/* MAXTOKENLEN is the maximum size of a token */
+/* MAXTOKENLEN是一个token的最大长度*/
 #define MAXTOKENLEN 40
 
-/* tokenString array stores the lexeme of each token */
+/* tokenString数组存储每个token单元 */
 extern char tokenString[MAXTOKENLEN + 1];
 
-/*  function getToken returns the
-*	next token in source file
+/*  函数getToken返回源文件的下一个token
 */
 TokenType getToken(void);
 
