@@ -1,0 +1,29 @@
+RO指令
+------------------------------------------------
+格式		opcode r,s,t
+操作码		效果
+HALT		停止执行（忽略操作数）
+IN			reg[r]<-从标准读入整型值
+OUT			reg[r]->标准输出
+
+ADD			reg[r]=reg[s]+reg[t]
+SUB			reg[r]=reg[s]-reg[t]
+MUL			reg[r]=reg[s]*reg[t]
+DIV			reg[r]=reg[s]/reg[t]
+
+RM指令
+-------------------------------------------------
+格式		opcode r,d(s)
+(a=d+reg[s];任何对dmem[a]的引用在a<0或 a>=DADDR-SIZE时产生ZERO_DIV)
+
+操作码		效果
+LD			reg[r]=dmem[a]（将a的值装入r）
+LDA			reg[r]=a（将地址a直接装入r）
+LDC			reg[r]=d（将常数d直接装入r）
+ST			dmem[a]=reg[r]（将r的值存入地址位置a）
+JLT			if(reg[r]<0)reg[PC_REG]=a
+JLE			if(reg[r]<=0)reg[PC_REG]=a
+JGE			if(reg[r]>0)reg[PC_REG]=a
+JGT			if(reg[r]>=0)reg[PC_REG]=a
+JEQ			if(reg[r]==0)reg[PC_REG]=a
+JNE			if(reg[r]!=0)reg[PC_REG]=a
