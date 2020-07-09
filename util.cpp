@@ -3,7 +3,7 @@
 
 void printToken(TokenType token, const char* tokenString)
 {
-	switch (token)//Ìõ¼şÓï¾ä£¨else,if)ÕûĞÔ±äÁ¿ÉùÃ÷£¨int£©·µ»ØÓï¾ä£¨return£©ÒÔ¼°Ñ­»·Óï¾ä£¨while£©ºÍº¯ÊıÀàĞÍÉùÃ÷£¨void£©
+	switch (token)//æ¡ä»¶è¯­å¥ï¼ˆelse,if)æ•´æ€§å˜é‡å£°æ˜ï¼ˆintï¼‰è¿”å›è¯­å¥ï¼ˆreturnï¼‰ä»¥åŠå¾ªç¯è¯­å¥ï¼ˆwhileï¼‰å’Œå‡½æ•°ç±»å‹å£°æ˜ï¼ˆvoidï¼‰
 	{
 	case ELSE:
 	case IF:
@@ -48,7 +48,7 @@ void printToken(TokenType token, const char* tokenString)
 }
 
 
-///Óï·¨Ê÷Óï¾ä½Úµã
+///è¯­æ³•æ ‘è¯­å¥èŠ‚ç‚¹
 TreeNode* newStmtNode(StmtKind kind)
 {
 	TreeNode* t = (TreeNode*)malloc(sizeof(TreeNode));
@@ -66,7 +66,7 @@ TreeNode* newStmtNode(StmtKind kind)
 	return t;
 }
 
-///Óï·¨Ê÷±í´ïÊ½½Úµã
+///è¯­æ³•æ ‘è¡¨è¾¾å¼èŠ‚ç‚¹
 TreeNode* newExpNode(ExpKind kind)
 {
 	TreeNode* t = (TreeNode*)malloc(sizeof(TreeNode));
@@ -85,7 +85,7 @@ TreeNode* newExpNode(ExpKind kind)
 	return t;
 }
 
-///Óï·¨Ê÷ÉùÃ÷½Úµã
+///è¯­æ³•æ ‘å£°æ˜èŠ‚ç‚¹
 TreeNode* newDeclNode(DeclKind kind)
 {
 	TreeNode* t = (TreeNode*)malloc(sizeof(TreeNode));
@@ -103,7 +103,7 @@ TreeNode* newDeclNode(DeclKind kind)
 	return t;
 }
 
-///Óï·¨Ê÷º¯Êı²ÎÊı½Úµã
+///è¯­æ³•æ ‘å‡½æ•°å‚æ•°èŠ‚ç‚¹
 TreeNode* newParamNode(ParamKind kind)
 {
 	TreeNode* t = (TreeNode*)malloc(sizeof(TreeNode));
@@ -121,7 +121,7 @@ TreeNode* newParamNode(ParamKind kind)
 	return t;
 }
 
-///Óï·¨Ê÷ÀàĞÍ½Úµã
+///è¯­æ³•æ ‘ç±»å‹èŠ‚ç‚¹
 TreeNode* newTypeNode(TypeKind kind)
 {
 	TreeNode* t = (TreeNode*)malloc(sizeof(TreeNode));
@@ -139,7 +139,7 @@ TreeNode* newTypeNode(TypeKind kind)
 	return t;
 }
 
-///¸´ÖÆÒ»¸ö×Ö·û´®
+///å¤åˆ¶ä¸€ä¸ªå­—ç¬¦ä¸²
 char* copyString(char* s)
 {
 	int n;

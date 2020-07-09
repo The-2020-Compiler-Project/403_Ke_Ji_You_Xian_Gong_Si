@@ -1,5 +1,5 @@
 /****************************************************/
-/*Ä¿±ê´úÂëÉú³É*/
+/*ç›®æ ‡ä»£ç ç”Ÿæˆ*/
 /****************************************************/
 
 #include "globals.h"
@@ -15,21 +15,21 @@ static char buffer[1000];
 
 static int globalOffset = 0; //
 static int frameoffset = initFO; //
-static int numOfParams = 0; //µ±Ç°º¯Êı²ÎÊıÊıÁ¿
-static int isInFunc = FALSE; //ÏÔÊ¾µ±Ç°½ÚµãµÄ±êÖ¾£¬ÓÃÓÚ¼ÆËãlocalOffset
-static int mainFuncLoc = 0; //´æ´¢Ö÷º¯ÊıµÄÎ»ÖÃ
+static int numOfParams = 0; //å½“å‰å‡½æ•°å‚æ•°æ•°é‡
+static int isInFunc = FALSE; //æ˜¾ç¤ºå½“å‰èŠ‚ç‚¹çš„æ ‡å¿—ï¼Œç”¨äºè®¡ç®—localOffset
+static int mainFuncLoc = 0; //å­˜å‚¨ä¸»å‡½æ•°çš„ä½ç½®
 
-static void cGen(TreeNode* tree); //ÄÚ²¿µİ¹é´úÂëÉú³É
+static void cGen(TreeNode* tree); //å†…éƒ¨é€’å½’ä»£ç ç”Ÿæˆ
 
 static int getBlockOffset(TreeNode* list) {
     int offset = 0;
-    //µÈ´úÂëÍê³É
+    //ç­‰ä»£ç å®Œæˆ
     return offset;
 }
 
 
 
-/* ±éÀú±í´ïÊ½½Úµã²¢Éú³É´úÂë */
+/* éå†è¡¨è¾¾å¼èŠ‚ç‚¹å¹¶ç”Ÿæˆä»£ç  */
 static void genExp(TreeNode* tree, int lhs)
 {
     int loc;
@@ -42,9 +42,9 @@ static void genExp(TreeNode* tree, int lhs)
         if (TraceCode) emitComment("-> Op");
         p1 = tree->child[0];
         p2 = tree->child[1];
-        cGen(p1);//storeÖ¸Áî
+        cGen(p1);//storeæŒ‡ä»¤
         emitRM("ST", ac, frameoffset--, fp, "op: push left");
-        cGen(p2);//loadÖ¸Áî
+        cGen(p2);//loadæŒ‡ä»¤
         emitRM("LD", ac1, ++frameoffset, fp, "op: load left");
 
         switch (tree->attr.op) {
@@ -104,7 +104,7 @@ static void genExp(TreeNode* tree, int lhs)
             emitRM("LDC", ac, 1, ac, "true case");
             break;
         default:
-            emitComment("ERROR: ²Ù×÷ÊıÎ´Öª ");
+            emitComment("ERROR: æ“ä½œæ•°æœªçŸ¥ ");
             break;
         }
 
@@ -144,44 +144,44 @@ static void genExp(TreeNode* tree, int lhs)
         }
 
 
-        /* ¿É±äÆ«ÒÆÁ¿ */
+        /* å¯å˜åç§»é‡ */
         emitRM("LDC", ac, varOffset, 0, "id: load varOffset");
 
         if (tree->kind.exp == ArrIdK) {
-            /* ½ÚµãÀàĞÍÎªÊı×éid*/
+            /* èŠ‚ç‚¹ç±»å‹ä¸ºæ•°ç»„id*/
 
             if (loc >= 0 && loc < numOfParams) {
 
-                /* ÍÆËÍµØÖ· */
+                /* æ¨é€åœ°å€ */
                 emitRO("ADD", ac, fp, ac, "id: load the memory address of base address of array to ac");
                 emitRO("LD", ac, 0, ac, "id: load the base address of array to ac");
             }
             else {
-                /* È«¾Ö&¾Ö²¿±äÁ¿ */
+                /* å…¨å±€&å±€éƒ¨å˜é‡ */
 
-                /* µØÖ· */
+                /* åœ°å€ */
                 if (loc >= 0)
                 {
-                    /* ÔÚµ±Ç°º¯ÊıÕÒ */
+                    /* åœ¨å½“å‰å‡½æ•°æ‰¾ */
                     emitRO("ADD", ac, fp, ac, "id: calculate the address");
                 }
                 else
                 {
-                    /* ÔÚÈ«¾ÖÕÒ */
+                    /* åœ¨å…¨å±€æ‰¾ */
                     emitRO("ADD", ac, gp, ac, "id: calculate the address");
 
                 }
             }
 
-            /* Éú³É½«µ±Ç°Æ«ÒÆÁ¿Ñ¹Õ»µÄ´úÂë */
+            /* ç”Ÿæˆå°†å½“å‰åç§»é‡å‹æ ˆçš„ä»£ç  */
             emitRM("ST", ac, frameoffset--, fp, "id: push base address");
 
-            /* Éú³ÉË÷Òı±í´ïÊ½´úÂë*/
+            /* ç”Ÿæˆç´¢å¼•è¡¨è¾¾å¼ä»£ç */
             p1 = tree->child[1];
             if (p1 != NULL)
             {
                 cGen(p1);
-                /* »ñÈ¡¿É±äÆ«ÒÆÁ¿µÄÄ¿±ê´úÂë */
+                /* è·å–å¯å˜åç§»é‡çš„ç›®æ ‡ä»£ç  */
                 emitRM("LD", ac1, ++frameoffset, fp, "id: pop base address");
                 emitRO("SUB", ac, ac1, ac, "id: calculate element address with index");
             }
@@ -192,17 +192,17 @@ static void genExp(TreeNode* tree, int lhs)
 
         }
         else {
-            /* ·ÇÊı×éid½Úµã */
+            /* éæ•°ç»„idèŠ‚ç‚¹ */
 
-            /* µØÖ·´úÂë */
+            /* åœ°å€ä»£ç  */
             if (loc >= 0)
             {
-                /* µ±Ç°º¯Êı */
+                /* å½“å‰å‡½æ•° */
                 emitRO("ADD", ac, fp, ac, "id: calculate the address found in current frame");
             }
             else
             {
-                /* È«¾Ö */
+                /* å…¨å±€ */
                 emitRO("ADD", ac, gp, ac, "id: calculate the address found in global scope");
 
             }
@@ -222,14 +222,14 @@ static void genExp(TreeNode* tree, int lhs)
     case CallK:
         if (TraceCode) emitComment("-> Call");
 
-        /* ³õÊ¼»¯ */
+        /* åˆå§‹åŒ– */
         numOfArgs = 0;
 
         p1 = tree->child[1];
 
-        /* ¶ÔÃ¿¸ö²ÎÊı½øĞĞÒ»´ÎÑ­»· */
+        /* å¯¹æ¯ä¸ªå‚æ•°è¿›è¡Œä¸€æ¬¡å¾ªç¯ */
         while (p1 != NULL) {                                    //*****************************************
-            /* º¯Êı±í´ïÊ½Éú³É´úÂë */         //*****************************************
+            /* å‡½æ•°è¡¨è¾¾å¼ç”Ÿæˆä»£ç  */         //*****************************************
             if (p1->type == IntegerArray)                       //*****************************************
                 genExp(p1, TRUE);                               //*****************************************
             else                                                //*****************************************
@@ -242,29 +242,29 @@ static void genExp(TreeNode* tree, int lhs)
         }
 
         if (strcmp(tree->attr.name, "input") == 0) {
-            /* ÊäÈëº¯ÊıÉú³É´úÂë */
+            /* è¾“å…¥å‡½æ•°ç”Ÿæˆä»£ç  */
             emitRO("IN", ac, 0, 0, "read integer value");
         }
         else if (strcmp(tree->attr.name, "output") == 0) {
-            /* Êä³öº¯ÊıÉú³É´úÂë */
-            /* Éú³ÉÒªĞ´ÈëµÄÖµµÄ´úÂë */
+            /* è¾“å‡ºå‡½æ•°ç”Ÿæˆä»£ç  */
+            /* ç”Ÿæˆè¦å†™å…¥çš„å€¼çš„ä»£ç  */
             emitRM("LD", ac, frameoffset + initFO, fp, "load arg to ac");
-            /* Êä³öÕâ¸öÖµ */
+            /* è¾“å‡ºè¿™ä¸ªå€¼ */
             emitRO("OUT", ac, 0, 0, "write ac");
         }
         else {
-            /* ´¢´æµ±Ç°mpµÄÉú³É´úÂë */
+            /* å‚¨å­˜å½“å‰mpçš„ç”Ÿæˆä»£ç  */
             emitRM("ST", fp, frameoffset + ofpFO, fp, "call: store current mp");
-            /* Ñ¹Õ»ĞÂº¯Êı */
+            /* å‹æ ˆæ–°å‡½æ•° */
             emitRM("LDA", fp, frameoffset, fp, "call: push new frame");
-            /* ±£´æ·µ»Ø */
+            /* ä¿å­˜è¿”å› */
             emitRM("LDA", ac, 1, pc, "call: save return in ac");
 
-            /* Ìø×ªµ½º¯ÊıÈë¿Ú */
+            /* è·³è½¬åˆ°å‡½æ•°å…¥å£ */
             loc = -(st_lookup(tree->attr.name));
             emitRM("LD", pc, loc, gp, "call: relative jump to function entry");
 
-            /* µ¯Õ»µ±Ç°º¯Êı */
+            /* å¼¹æ ˆå½“å‰å‡½æ•° */
             emitRM("LD", fp, ofpFO, fp, "call: pop current frame");
         }
 
@@ -277,7 +277,7 @@ static void genExp(TreeNode* tree, int lhs)
     }
 }
 
-/* ±éÀúÓï¾ä½Úµã²¢Éú³É´úÂë */
+/* éå†è¯­å¥èŠ‚ç‚¹å¹¶ç”Ÿæˆä»£ç  */
 static void genStmt(TreeNode* tree) {
     TreeNode* p1, * p2, * p3;
     int savedLoc1, savedLoc2, currentLoc;
@@ -293,7 +293,7 @@ static void genStmt(TreeNode* tree) {
 
 
         genExp(p1, TRUE);
-        // Ñ¹Õ»lhsµÄÉú³É´úÂë
+        // å‹æ ˆlhsçš„ç”Ÿæˆä»£ç 
         emitRM("ST", ac, frameoffset--, fp, "assign: push left (address)");
 
 
@@ -312,27 +312,27 @@ static void genStmt(TreeNode* tree) {
         p1 = tree->child[0];
         p2 = tree->child[1];
 
-        /* ¸üĞÂÒ»ÏÂº¯ÊıÉùÃ÷µÄÆ«ÒÆÁ¿ */
+        /* æ›´æ–°ä¸€ä¸‹å‡½æ•°å£°æ˜çš„åç§»é‡ */
         offset = getBlockOffset(p1);
         frameoffset -= offset;
 
-        /* Ñ¹Õ» */
+        /* å‹æ ˆ */
 		if (tree->isInFuncCom)
 		{
 			sc_push(tree->attr.scope);
 		}
 
 
-        /*  ±¾ÌåµÄ´úÂëÉú³É */
+        /*  æœ¬ä½“çš„ä»£ç ç”Ÿæˆ */
         cGen(p2);
 
-        /* µ¯Õ» */
+        /* å¼¹æ ˆ */
 		if (tree->isInFuncCom)
 		{
 			sc_pop();
 		}
 
-        frameoffset -= offset;//»Ö¸´µ±Ç°Æ«ÒÆÁ¿
+        frameoffset -= offset;//æ¢å¤å½“å‰åç§»é‡
 
         if (TraceCode)emitComment("<-compound");
 
@@ -345,12 +345,12 @@ static void genStmt(TreeNode* tree) {
         p2 = tree->child[1];
         p3 = tree->child[2];
 
-        /* ²âÊÔ±í´ïÊ½Éú³É´úÂë */
+        /* æµ‹è¯•è¡¨è¾¾å¼ç”Ÿæˆä»£ç  */
         cGen(p1);
 
         savedLoc1 = emitSkip(1);
         emitComment("if:jump to else belongs here");
-        //²¿·Öµİ¹é
+        //éƒ¨åˆ†é€’å½’
         cGen(p2);
 
         savedLoc2 = emitSkip(1);
@@ -361,7 +361,7 @@ static void genStmt(TreeNode* tree) {
         emitRM_Abs("JEQ", ac, currentLoc, "if: jmp to else");
         emitRestore();
 
-        //ÆäËû²¿·Öµİ¹é
+        //å…¶ä»–éƒ¨åˆ†é€’å½’
         cGen(p3);
         currentLoc = emitSkip(0);
         emitBackup(savedLoc2);
@@ -380,13 +380,13 @@ static void genStmt(TreeNode* tree) {
         savedLoc1 = emitSkip(0);
         emitComment("while: jump after body comes back here");
 
-        /* ²âÊÔ±í´ïÊ½Éú³É´úÂë */
+        /* æµ‹è¯•è¡¨è¾¾å¼ç”Ÿæˆä»£ç  */
         cGen(p1);
 
         savedLoc2 = emitSkip(1);
         emitComment("while: jump to end belongs here");
 
-        /* ±¾Ìå´úÂëÉú³É */
+        /* æœ¬ä½“ä»£ç ç”Ÿæˆ */
         cGen(p2);
         emitRM_Abs("LDA", pc, savedLoc1, "while: jmp back to test");
 
@@ -404,7 +404,7 @@ static void genStmt(TreeNode* tree) {
 
         p1 = tree->child[0];
 
-        /* Îª±í´ïÊ½Éú³É´úÂë */
+        /* ä¸ºè¡¨è¾¾å¼ç”Ÿæˆä»£ç  */
         cGen(p1);
         emitRM("LD", pc, retFO, fp, "return: to caller");
 
@@ -416,7 +416,7 @@ static void genStmt(TreeNode* tree) {
     }
 }
 
-/* ÉùÃ÷½ÚµãÉú³É´úÂë */
+/* å£°æ˜èŠ‚ç‚¹ç”Ÿæˆä»£ç  */
 static void genDecl(TreeNode* tree)
 {
     TreeNode* p1, * p2;
@@ -436,18 +436,18 @@ static void genDecl(TreeNode* tree)
 
         isInFunc = TRUE;
 
-        /* º¯ÊıÈë¿Ú´úÂëÉú³É */
+        /* å‡½æ•°å…¥å£ä»£ç ç”Ÿæˆ */
         loc = -(st_lookup(tree->attr.name));
         loadFuncLoc = emitSkip(1);
         emitRM("ST", ac1, loc, gp, "func: store the location of func. entry");
-        /* -1È«¾ÖÆ«ÒÆÁ¿ */
+        /* -1å…¨å±€åç§»é‡ */
         --globalOffset;
 
-        /* ÎŞÌõ¼şÌø×ªÖÁÏÂÒ»¸öÉùÃ÷ */
+        /* æ— æ¡ä»¶è·³è½¬è‡³ä¸‹ä¸€ä¸ªå£°æ˜ */
         jmpLoc = emitSkip(1);
         emitComment("func: unconditional jump to next declaration belongs here");
 
-        /* º¯Êı±»µ÷ÓÃÊ±Ìø¹ı´úÂëÉú³É */
+        /* å‡½æ•°è¢«è°ƒç”¨æ—¶è·³è¿‡ä»£ç ç”Ÿæˆ */
         funcBodyLoc = emitSkip(0);
         emitComment("func: function body starts here");
 
@@ -455,21 +455,21 @@ static void genDecl(TreeNode* tree)
         emitRM("LDC", ac1, funcBodyLoc, 0, "func: load function location");
         emitRestore();
 
-        /* ´æ´¢·µ»ØµØÖ· */
+        /* å­˜å‚¨è¿”å›åœ°å€ */
         emitRM("ST", ac, retFO, fp, "func: store return address");
 
-        /* ¼ÆËã²ÎÊıÊıÁ¿ºÍµ±Ç°Æ«ÒÆÁ¿ */
+        /* è®¡ç®—å‚æ•°æ•°é‡å’Œå½“å‰åç§»é‡ */
         frameoffset = initFO;
         numOfParams = 0;
         cGen(p1);
 
-        /* º¯Êı±¾ÌåÉú³É´úÂë*/
+        /* å‡½æ•°æœ¬ä½“ç”Ÿæˆä»£ç */
         if (strcmp(tree->attr.name, "main") == 0)
             mainFuncLoc = funcBodyLoc;
 
         cGen(p2);
 
-        /* ´ø·µ»ØµØÖ· */
+        /* å¸¦è¿”å›åœ°å€ */
         emitRM("LD", pc, retFO, fp, "func: load pc with return address");
 
 
@@ -541,7 +541,7 @@ static void genParam(TreeNode* tree)
 }
 
 
-static void cGen(TreeNode* tree)  //Í¨¹ıµİ¹é±éÀúÊ÷Éú³É´úÂë
+static void cGen(TreeNode* tree)  //é€šè¿‡é€’å½’éå†æ ‘ç”Ÿæˆä»£ç 
 {
     if (tree != NULL)
     {

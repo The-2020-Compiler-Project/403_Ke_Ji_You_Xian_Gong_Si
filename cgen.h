@@ -3,7 +3,7 @@
 #ifndef _CGEN_H_
 #define _CGEN_H_
 
-/*±éÀúÓï·¨Ê÷Éú³É´úÂë µÚ¶ş¸ö²ÎÊıÊÇÎÄ¼şÃû
+/*éå†è¯­æ³•æ ‘ç”Ÿæˆä»£ç  ç¬¬äºŒä¸ªå‚æ•°æ˜¯æ–‡ä»¶å
  */
 void codeGen(TreeNode* syntaxTree, char* codefile);
 
