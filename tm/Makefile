@@ -1,7 +1,7 @@
 mt-machine: tm.o
-	g++ tm.o -o TM
+	g++ tm.o -o tm
 tm.o: tm.cpp
 	g++ -c tm.cpp
 
 clean: 
-	-rm tm.o TM
+	-rm tm.o tm

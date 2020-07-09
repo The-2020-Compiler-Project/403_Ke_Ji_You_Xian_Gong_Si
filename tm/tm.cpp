@@ -660,7 +660,6 @@ int doCommand(void)
 
 int main(int argc, char* argv[])
 {
-	/*
 	if (argc != 2)
 	{
 		printf("usage: %s <filename>\n", argv[0]);
@@ -669,8 +668,7 @@ int main(int argc, char* argv[])
 	strcpy(pgmName, argv[1]);
 	if (strchr(pgmName, '.') == NULL)
 		strcat(pgmName, ".tm");
-		*/
-	strcpy(pgmName, "sample.tm");
+	// strcpy(pgmName, "sample.tm");
 	pgm = fopen(pgmName, "r");
 	if (pgm == NULL)
 	{
