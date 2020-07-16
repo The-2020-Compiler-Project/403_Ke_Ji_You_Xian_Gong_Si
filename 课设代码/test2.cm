@@ -1,0 +1,22 @@
+void main(void)
+{
+	int i;
+    int j;
+	int tmp;
+	int sum;
+
+	i = input();
+	j = 0;
+	tmp = 1;
+	sum = 1;
+	output(tmp);
+	output(sum);
+	while(j<i){
+		int tmp2;
+		tmp2 = sum;
+		sum = sum + tmp;
+		tmp = tmp2;
+		output(sum);
+		j=j+1;
+	}
+}

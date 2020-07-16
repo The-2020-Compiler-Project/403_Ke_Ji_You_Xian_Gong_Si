@@ -1,0 +1,38 @@
+ 1. program -> declaration_list
+ 2. declaration_list -> declaration_list declaration | declaration
+ 3. declaration -> var_declaration | arrvar_declaration | fun_declaration
+ 4. var_declaration -> type_specifier ID ;
+ 5. arrvar_declaration -> type_specifier ID [ NUM ] ;
+ 6. fun_declaration -> type_specifier ID ( params ) compound_stmt
+ 7. type_specifier -> int | void
+ 8. params -> param_list | void
+ 9. param_list -> param_list , param | param
+ 10. param -> int ID | int ID [ ]
+ 11. compound_stmt -> { local_declarations statement_list }
+ 12. local_declarations -> local_declarations var_declaration 
+                          | local declarations arrvar_declaration
+                          | empty
+ 13. statement_list -> statement_list statement | empty
+ 14. statement -> assignment_stmt
+		| compound_stmt
+		| selection_stmt
+		| iteration_stmt
+		| return_stmt
+ 15. assignment_stmt -> ID = additive_expression ; 
+		| ID [ additive_expression ] = additive_expression ;
+		| ID ( args ) ; 
+ 16. selection_stmt -> if ( expression ) statement
+		| if ( expression ) statement else statement
+ 17. iteration_stmt -> while ( expression ) statement
+ 18. return_stmt -> return ; | return additive_expression ;
+ 19. expression -> additive_expression relop additive_expression
+ 20. relop -> <= | < | > | >= | == | !=
+ 21. additive_expression -> additive_expression addop term | term
+ 22. addop -> + | -
+ 23. term -> term mulop factor | factor
+ 24. mulop -> * | /
+ 25. factor -> ( additive_expression ) | var | call | NUM
+ 26. var -> ID | ID [ additive_expression ] | ID [ ]
+ 27. call -> ID ( args )
+ 28. args -> arg_list | empty
+ 29. arg_list -> arg_list , additive_expression | additive_expression
